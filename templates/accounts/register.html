@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block page_title %}Rejestracja{% endblock %}
+
+{% block content %}
+    <div class="col-lg-8 mx-auto">
+
+        <div class="text-center">
+            <h2>Utwórz nowe konto</h2>
+        </div>
+        {% if form.errors %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ error|escape }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <form method="post" enctype="multipart/form-data" class="border p-3 rounded">
+            {% csrf_token %}
+            {% for field in form.visible_fields %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                    {% render_field field class="form-control" placeholder=field.label %}
+                    {{ field.help_text }}
+                </div>
+            {% endfor %}
+            <button class="btn btn-primary" type="submit">Utwórz konto</button>
+        </form>
+    </div>
+{% endblock %}

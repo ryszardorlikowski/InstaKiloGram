@@ -1,0 +1,76 @@
+{% load static %}
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <title>InstaKiloGram - {% block page_title %}{% endblock %}</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{% url 'home-page' %}">InstaKiloGram</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'home-page' %}">Strona główna</a>
+            </li>
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:profile' %}">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:logout' %}">Wyloguj</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:login' %}">Logowanie</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:register' %}">Rejestracja</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+<div class="container py-5">
+    {% block content %}
+
+    {% endblock %}
+</div>
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="{% static 'js/jquery-3.3.1.slim.min.js' %}"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<!--Toast -->
+{% if messages %}
+    {% for message in messages %}
+        <div style="position: fixed;bottom: 10px; right: 10px; z-index:999;" class="toast" role="alert"
+             aria-live="assertive"
+             data-delay="2000" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="mr-auto">{{ message.tags }}</strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                {{ message }}
+            </div>
+        </div>
+    {% endfor %}
+    <script>
+        $('.toast').toast('show');
+    </script>
+{% endif %}
+<!--End toast -->
+</body>
+</html>
