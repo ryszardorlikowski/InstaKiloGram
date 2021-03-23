@@ -2,26 +2,40 @@
 {% block page_title %}Profil{% endblock %}
 
 {% block content %}
-    <section class="d-flex align-items-center">
+    <section class="d-flex align-items-center mb-5">
         <div class="col-4">
-            <img class="img-fluid rounded-circle profile-image" src="{{ user.profile_image.url }}"
-                 alt="{{ user.username }}">
+            <img class="img-fluid rounded-circle " src="{{ object.profile_image.url }}"
+                 alt="{{ object.username }}">
         </div>
         <div class="col-8">
             <div class="user-info-header">
                 <h2>{{ user.username }}</h2>
                 <ul class="list-unstyled d-flex">
-                    <li class="mr-2">Liczba postów: <b>{{ user }}</b></li>
-                    <li class="mx-2">Liczba obserwujacych: <b>{{ user }}</b></li>
-                    <li class="mx-2">Obserwuje: <b>{{ user }}</b></li>
+                    <li class="mr-2">Liczba postów: <b>{{ object.posts.count }}</b></li>
+                    <li class="mx-2">Liczba obserwujacych: <b>{{ object.followers.count }}</b></li>
+                    <li class="mx-2">Obserwuje: <b>{{ object.following.count }}</b></li>
                 </ul>
             </div>
             <div class="user-info-description">
-                {{ user.about_me }}
+               {% if object.about_me %} {{ object.about_me }}{% endif %}
             </div>
         </div>
     </section>
-    <section>
-{#    User posts #}
+    <hr>
+    <section class="my-5">
+        <div class="row">
+            {% for post in object.posts.all %}
+                <div class="col-4">
+                    <img class="img-fluid" src="{{ post.image.url }}" alt="">
+                    <div class="d-flex justify-content-between">
+                        <div>Polubienia: <b>{{ post.likes_count }}</b></div>
+                        <div>Komentarze: <b>{{ post.comments_count }}</b></div>
+                    </div>
+                    <div class="text-center mt-2">
+                        <a class="btn-sm btn-primary" href="{{ post.get_absolute_url }}">Zobacz post</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </section>
 {% endblock %}
