@@ -22,7 +22,7 @@
                     {{ field.label_tag }}
                     {% for error in field.errors %}
                         <div class="alert alert-danger">
-                            <strong>{{ error|escape }}</strong>
+                            {{ error|escape }}
                         </div>
                     {% endfor %}
                     {% render_field field class="form-control" placeholder=field.label %}

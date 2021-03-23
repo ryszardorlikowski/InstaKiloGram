@@ -2,5 +2,26 @@
 {% block page_title %}Profil{% endblock %}
 
 {% block content %}
-    Hi {{ user.username }}<br>
+    <section class="d-flex align-items-center">
+        <div class="col-4">
+            <img class="img-fluid rounded-circle profile-image" src="{{ user.profile_image.url }}"
+                 alt="{{ user.username }}">
+        </div>
+        <div class="col-8">
+            <div class="user-info-header">
+                <h2>{{ user.username }}</h2>
+                <ul class="list-unstyled d-flex">
+                    <li class="mr-2">Liczba postów: <b>{{ user }}</b></li>
+                    <li class="mx-2">Liczba obserwujacych: <b>{{ user }}</b></li>
+                    <li class="mx-2">Obserwuje: <b>{{ user }}</b></li>
+                </ul>
+            </div>
+            <div class="user-info-description">
+                {{ user.about_me }}
+            </div>
+        </div>
+    </section>
+    <section>
+{#    User posts #}
+    </section>
 {% endblock %}
