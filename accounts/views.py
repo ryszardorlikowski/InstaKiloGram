@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView as DefaultLoginView, LogoutView
 from django.http import HttpResponseRedirect
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, DetailView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from accounts.forms import RegisterForm
@@ -31,17 +31,13 @@ class RegisterView(SuccessMessageMixin, CreateView):
 
     def dispatch(self, request, *args, **kwargs):
         if self.request.user.is_authenticated:
-            return HttpResponseRedirect(reverse_lazy('accounts:profile'))
+            return HttpResponseRedirect(reverse_lazy('home-page'))
         return super().dispatch(request, *args, **kwargs)
 
 
-class ProfileView(TemplateView):
+class ProfileView(DetailView):
     template_name = 'accounts/profile.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['user'] = User.objects.get(pk=self.request.user.pk)
-        return context
+    model = User
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):

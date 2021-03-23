@@ -42,8 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-'widget_tweaks',
+    'widget_tweaks',
     'accounts',
+    'posts'
 ]
 
 MIDDLEWARE = [
@@ -111,6 +112,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 AUTH_USER_MODEL = 'accounts.User'
-LOGIN_REDIRECT_URL = reverse_lazy('accounts:profile')
-LOGOUT_REDIRECT_URL  = reverse_lazy('accounts:profile')
+LOGIN_REDIRECT_URL = reverse_lazy('home-page')
+LOGOUT_REDIRECT_URL  = reverse_lazy('home-page')
 LOGIN_URL = reverse_lazy('accounts:login')

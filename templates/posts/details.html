@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block page_title %}Post{% endblock %}
+
+{% block content %}
+    <section>
+
+    </section>
+    <section class="row mb-5">
+        <div class="col-9 mx-auto">
+            <a href="{{ object.user.get_absolute_url }}">
+                <h2>{{ object.user }}</h2>
+            </a>
+             <small>{{ object.created }}</small>
+            <img src="{{ object.image.url }}" class="img-fluid" alt="">
+            <div class="my-2">
+                {{ object.description }}
+            </div>
+            <div>
+                Polubienia:
+                <span class="badge-primary px-2 py-1">{{ object.likes_count }}</span>
+            </div>
+        </div>
+    </section>
+    <section class="my-5">
+        <h3>Komentarze:</h3>
+    </section>
+{% endblock %}
