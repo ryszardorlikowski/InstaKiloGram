@@ -24,4 +24,29 @@
     <section class="my-5">
         <h3>Komentarze:</h3>
     </section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-sm-6 mb-3 d-flex flex-column">
+                <img src="https://instagram.fktw3-1.fna.fbcdn.net/v/t51.2885-15/sh0.08/e35/s640x640/164061335_1629307290613235_8285040908076775950_n.jpg?tp=1&_nc_ht=instagram.fktw3-1.fna.fbcdn.net&_nc_cat=111&_nc_ohc=iSVLYBfBu_wAX_a15cm&ccb=7-4&oh=be7c71148f392aa04e12372ceb83ffe5&oe=60877189&_nc_sid=4f375e" class="img-fluid" alt="">
+            </div>
+            <div class="col-md-4 col-sm-6 mb-3 d-flex flex-column">
+                <a href="{{ object.user.get_absolute_url }}">
+                    <h2>User</h2>
+                </a>
+                <small>Data</small>
+                <div class="my-2">
+                    opis
+                    opis
+                    opis
+                </div>
+                <div>
+                    Polubienia:
+                    <span class="badge-primary px-2 py-1">1234</span>
+                </div>
+                <section class="my-5">
+                    <h3>Komentarze:</h3>
+                </section>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -22,20 +22,20 @@
         </div>
     </section>
     <hr>
-    <section class="my-5">
+    <div class="container">
         <div class="row">
             {% for post in object.posts.all %}
-                <div class="col-4">
+                <div class="col-md-4 col-sm-6 mb-3 d-flex flex-column">
                     <img class="img-fluid" src="{{ post.image.url }}" alt="">
-                    <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between mt-1">
                         <div>Polubienia: <b>{{ post.likes_count }}</b></div>
                         <div>Komentarze: <b>{{ post.comments_count }}</b></div>
                     </div>
                     <div class="text-center mt-2">
-                        <a class="btn-sm btn-primary" href="{{ post.get_absolute_url }}">Zobacz post</a>
+                        <a class="btn btn-outline-primary btn-block" href="{{ post.get_absolute_url }}" role="button">Zobacz post</a>
                     </div>
                 </div>
             {% endfor %}
         </div>
-    </section>
+    </div>
 {% endblock %}
