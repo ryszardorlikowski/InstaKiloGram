@@ -1,0 +1,37 @@
+{% extends '../base.html' %}
+{% load bootstrap4 %}
+{% block head_title %}My following list {{ object.username }}{% endblock %}
+{% block content %}
+
+    <div class="card my-8 mt-4" align="center">
+        <h5 class="card-header">My following list</h5>
+        <div class="card-body">
+            <ul class="list-group">
+                {% for user_on_list in twitteruser_list %}
+                    <li class="list-group-item align-items-center">
+                        <a href="{% url 'user-public-profile' user_on_list.slug %}" class="btn btn-link"
+                           style="text-decoration: none">
+                            <h5><img src="{{ user_on_list.avatar.url }}" width="35px" height="35px"
+                                     alt="{{ post.user.username }}"
+                                     class="rounded-circle pull-left">
+                                {% if user_on_list.full_name %}
+                                    {{ user_on_list.full_name }}
+                                    <small class="text-left text-secondary">{{ user_on_list.username }}</small>
+                                {% else %}
+                                    <small class="text-left text-secondary">{{ user_on_list.username }}</small>
+                                {% endif %}
+                            </h5>
+                        </a>
+                        <form method="POST" action="{% url 'user-following-list' %}">
+                            {% csrf_token %}
+                            <input type="hidden" id="user_id" name="user_id" value="{{ user_on_list.id }}">
+                            <button type="submit" class="btn btn-warning">Unfollow</button>
+                        </form>
+
+                    </li>
+
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock content %}

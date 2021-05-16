@@ -1,0 +1,27 @@
+{% extends '../base.html' %}
+
+{% load bootstrap4 %}
+{% block head_title %}Edit profile{% endblock %}
+{% block content %}
+
+    <div class="card my-8 mt-4 m-2" align="center">
+        <h5 class="card-header">Edit profile</h5>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group has-errors text-danger small">
+                        {{ field.errors }}
+                    </div>
+                    <div class="form-group col-md-7  m-auto">
+                        {% bootstrap_field field %}
+                    </div>
+                {% endfor %}
+                <button class="btn btn-primary m-4" type="submit">Edit Profile</button>
+            </form>
+
+            <a href="{% url 'account_change_password' %}" class="btn btn-primary btn-sm">Change password</a>
+        </div>
+    </div>
+
+{% endblock content %}

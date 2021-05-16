@@ -1,0 +1,21 @@
+{% extends "../base.html" %}
+
+
+{% block head_title %}Delete Comment{% endblock %}
+
+{% block content %}
+
+    <div class="card">
+        <h5 class="card-header text-dark">Delete comment</h5>
+        <div class="card-body">
+            <p>Are you sure you want to delete comment?</p>
+
+            <form method="post" action="{% url 'comment-delete' pk %}">
+                {% csrf_token %}
+                <input type="hidden" name="confirm_delete" value="confirm_delete"/>
+                <button class="btn btn-danger" type="submit">Delete</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock content %}

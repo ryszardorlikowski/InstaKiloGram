@@ -1,0 +1,26 @@
+{% extends "../base.html" %}
+
+{% block head_title %}Sign up{% endblock %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+    <div class="card">
+        <h5 class="card-header text-dark">Sign up</h5>
+        <div class="card-body">
+            <p>Already have an account? Then please <a href="{{ login_url }}">sign in</a></p>
+
+            <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+                {% csrf_token %}
+                <div class="form-group col-md-5  m-auto">
+                    {% bootstrap_form form %}</div>
+                {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                {% endif %}
+                <button class="btn btn-primary" type="submit">Sign Up &raquo;</button>
+            </form>
+
+        </div>
+    </div>
+
+{% endblock content %}

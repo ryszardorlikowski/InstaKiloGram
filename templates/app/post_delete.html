@@ -1,0 +1,21 @@
+{% extends "../base.html" %}
+
+
+{% block head_title %}Delete post{% endblock %}
+
+{% block content %}
+
+    <div class="card">
+        <h5 class="card-header text-dark">Delete post</h5>
+        <div class="card-body">
+            <p>Are you sure you want to delete post?</p>
+
+            <form method="post" action="{% url 'post-delete' pk %}">
+                {% csrf_token %}
+                <input type="hidden" name="confirm_delete" value="confirm_delete"/>
+                <button class="btn btn-danger" type="submit">Delete</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,49 @@
+{% extends '../base.html' %}
+
+{% load bootstrap4 %}
+{% load base_tags %}
+
+{% block content %}
+
+    <div class="card">
+        <h5 class="card-header text-dark">Search results</h5>
+        <div class="card-body">
+            <ul class="list-group mt-2">
+                {% for user_result in object_list %}
+
+                    <li class="list-group-item align-items-center">
+                        <a href="{% url 'user-public-profile' user_result.slug %}" class="btn btn-link"
+                           style="text-decoration: none">
+                            <h5><img src="{{ user_result.avatar.url }}" width="35px" height="35px"
+                                     alt="{{ post.user.username }}"
+                                     class="rounded-circle pull-left">{% if user_result.full_name %}
+                                {{ user_result.full_name }}
+                                <small class="text-left text-secondary">{{ user_result.username }}</small>
+                            {% else %}
+                                <small class="text-left text-secondary">{{ user_result.username }}</small>
+                            {% endif %}
+                            </h5>
+                        </a>
+
+                        {% user_is_follow user user_result.id as is_follow %}
+
+
+                        <form method="POST" action="{% url 'search-users-results' %}?{{ request.GET.urlencode }}">
+                            {% csrf_token %}
+                            <input type="hidden" id="user_id" name="user_id" value="{{ user_result.id }}">
+                            {% if is_follow %}
+                                <button type="submit" class="btn btn-warning">Unfollow</button>
+                            {% else %}
+                                <button type="submit" class="btn btn-primary">Follow</button>
+                            {% endif %}
+                        </form>
+
+
+                    </li>
+
+                {% endfor %}
+            </ul>
+
+        </div>
+    </div>
+{% endblock content %}

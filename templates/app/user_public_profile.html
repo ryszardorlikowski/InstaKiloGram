@@ -1,0 +1,104 @@
+{% extends '../base.html' %}
+{% load base_tags %}
+{% block head_title %}Profile - {{ object.username }}{% endblock %}
+{% block content %}
+
+
+    <div class="card">
+        <h5 class="card-header text-dark"> Profile</h5>
+        <div class="card-body">
+
+            <div class="media">
+                <a class="thumbnail pull-left" href="{% url 'user-public-profile' object.slug %}">
+                    <img src="{{ object.avatar.url }}" width="80px" height="80px" alt="{{ object.username }}"
+                         class="rounded-circle pull-left" src="{{ object.avatar.url }}">
+                </a>
+                <a href="{% url 'user-public-profile' object.slug %}" style="text-decoration: none">
+                    <h5 class="font-weight-bold m-4 mt-4">
+                        {% if object.full_name %}
+                            {{ object.full_name }}
+                        {% endif %}
+                        <small class="text-left text-secondary">{{ object.username }}</small>
+
+                    </h5>
+                </a>
+
+
+            </div>
+            <div class="m-3" align="center"><p>{{ object.about_me }}</p></div>
+            <div class="table">
+                <table class="table table-white small m-1">
+
+                    <thead>
+                    <tr>
+                        <th scope="col" class="text-center">Posts</th>
+                        <th scope="col" class="text-center">Following</th>
+                        <th scope="col" class="text-center">Followers</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+
+                        {% get_number_of_posts object as number_of_posts %}
+                        {% get_number_of_followers object as number_of_followers %}
+
+                        <td class="text-center">{{ number_of_posts }}</td>
+                        <td class="text-center">{{ object.following.count }}</td>
+                        <td class="text-center">{{ number_of_followers }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+           <div class="row justify-content-center" >
+
+
+
+                        {% if object != user %}
+                            <div class="p-2" >
+
+
+                                {% user_is_follow user object.id as is_follow %}
+
+                                <form method="POST"
+                                      action="{% url 'user-public-profile' object.slug %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" id="user_id" name="user_id" value="{{ object.id }}">
+                                    {% if is_follow %}
+                                        <button type="submit" class="btn btn-warning">Unfollow</button>
+                                    {% else %}
+                                        <button type="submit" class="btn btn-primary">Follow</button>
+                                    {% endif %}
+                                </form>
+
+                            </div>
+
+                        {% else %}
+
+                            <div class="p-2">
+                                <a href="{% url 'user-edit-profile' %}" class="btn btn-primary" role="button"
+                                   aria-pressed="true">Edit profile</a>
+
+                            </div>
+
+                            <div class="p-2">
+                                <a href="{% url 'user-following-list' %}" class="btn btn-primary" role="button"
+                                   aria-pressed="true">Following users</a>
+                            </div>
+
+                        {% endif %}
+
+                        <div class="p-2">
+                            <a href="{% url 'user-posts' object.slug %}" class="btn btn-primary" role="button"
+                               aria-pressed="true">Posts</a>
+                        </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+{% endblock %}

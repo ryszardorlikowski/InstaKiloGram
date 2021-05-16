@@ -1,0 +1,28 @@
+{% extends '../base.html' %}
+
+{% block head_title %}Edit post{% endblock %}
+
+{% load bootstrap4 %}
+
+{% block content %}
+
+
+    <div class="card">
+        <h5 class="card-header text-dark">Edit post</h5>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group has-errors text-danger small">
+                        {{ field.errors }}
+                    </div>
+                    <div class="form-group col-md-7  m-auto">
+                        {% bootstrap_field field %}
+                    </div>
+                {% endfor %}
+                <button class="btn btn-primary m-4" type="submit">Edit post</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock content %}

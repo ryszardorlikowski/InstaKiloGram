@@ -1,0 +1,163 @@
+{% extends '../base.html' %}
+
+{% block head_title %}{{ object.content|truncatechars:15 }}{% endblock %}
+
+{% load base_tags %}
+
+{% block content %}
+
+
+    {% user_like_it user.id object as user_like_it %}
+    {% get_number_of_comments object as number_of_comments %}
+
+
+    <div class="card my-8 m-3">
+        <div class="card-body">
+            <div class=" d-flex justify-content-end">
+
+                <div class="mr-auto p-2">
+
+
+                    <a class="thumbnail text-left"
+                       href="{% url 'user-public-profile' object.author.slug %}">
+                        <img src="{{ object.author.avatar.url }}" width="25px" height="25px"
+                             alt="{{ object.author.username }}"
+                             class="rounded-circle pull-left">
+                    </a> <a href="{% url 'user-public-profile'  object.author.slug %}"
+                            style="text-decoration: none">
+                    <small class="font-weight-bold m-2 mt-4">
+                        {% if  object.author.full_name %}
+                            {{ object.author.full_name }}
+                        {% endif %}</small>
+                    <small class="text-left text-secondary">{{ object.author.username }}</small>
+                </a>
+
+                </div>
+
+                <div class=" p-2">
+                    <small class="pull-right text-right text-dark">{{ object.created }}  {% if object.edited %}
+                        (Post was edited) {% endif %}</small>
+                </div>
+                {% if user == object.author %}
+                    <a class="btn-sm nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Options
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'post-edit' object.id %}">Edit</a>
+                        <a class="dropdown-item" href="{% url 'post-delete' object.id %}">Delete</a>
+                    </div>
+
+                {% endif %}
+            </div>
+            <hr>
+
+            <div>
+
+                {% if object.image %}
+
+                    <div align="center" class="p-2"><img class="img-fluid" src="{{ object.image.url }}"
+                                                         alt="{{ object.author.username }}"></div>
+                {% endif %}
+                <div class="media-body p-2">
+                    {% add_hashtags_links post.content as content %}
+                    {{ content|safe }}
+
+                </div>
+            </div>
+            <hr>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6 text-center">
+
+
+                        <form method="POST" action="{% url 'post-details' object.id %}">
+                            <small class="font-weight-bold mr-2">Likes: {{ object.likes.count }}</small>
+                            {% csrf_token %}
+                            <input type="hidden" id="post_id" name="post_id" value="{{ object.id }}">
+                            {% if user_like_it %}
+                                <button type="submit" class="btn btn-warning btn-sm">Unlike</button>
+                            {% else %}
+                                <button type="submit" class="btn btn-primary btn-sm">Like</button>
+                            {% endif %}
+                        </form>
+
+
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <small class="font-weight-bold mr-2">Comments: {{ number_of_comments }}</small>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <!-------------------Comments section----------------------------------->
+
+    <h4 align="center" class="mt-5">Comments:</h4>
+    {% for comment in comments %}
+        <div class="card border-0 m-2">
+            <div class="card-body">
+                <div class=" d-flex justify-content-end">
+
+                    <div class="mr-auto">
+
+
+                        <a class="thumbnail text-left"
+                           href="{% url 'user-public-profile' comment.author.slug %}">
+                            <img src="{{ comment.author.avatar.url }}" width="25px" height="25px"
+                                 alt="{{ comment.author.username }}"
+                                 class="rounded-circle pull-left">
+                        </a> <a href="{% url 'user-public-profile'  comment.author.slug %}"
+                                style="text-decoration: none">
+                        <small class="font-weight-bold m-2 mt-4">
+                            {% if  comment.author.full_name %}
+                                {{ comment.author.full_name }}
+                            {% endif %}</small>
+                        <small class="text-left text-secondary">{{ comment.author.username }}</small>
+                    </a>
+
+                    </div>
+
+                    <div>
+                        <small class="pull-right text-right text-dark">{{ comment.created }}</small>
+                    </div>
+
+                    {% if comment.author == user %}
+                        <div><a href="{% url 'comment-delete' comment.id %}" class="btn btn-danger btn-sm ml-2 ">
+                            <small>Delete</small></a></div>
+                    {% endif %}
+
+                </div>
+                <div class="card m-2 ml-4 p-3">
+                    <div class="media-body">
+                        {{ comment.content }}
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    {% endfor %}
+
+    <div align="center" class="m-3">
+
+        <form action="{% url 'post-details' object.id %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" id="add_comment" name="add_comment" value="1">
+            <div>
+                <textarea class="form-control col-10 m-2" name="comment_content" id="comment_content"
+                          rows="4"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">Add comment</button>
+        </form>
+    </div>
+
+{% endblock %}
